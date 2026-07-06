@@ -29,7 +29,7 @@ if st.checkbox("Show message"):
 # Radio button
 gender = st.radio("Select Gender:", ['Male', 'Female'])
 st.success(f"Selected: {gender}")
-if gender == "Male":
+if gender = "Male":
     st.write("You have chosen Male")
 else:
     st.write("You have chosen Female")
