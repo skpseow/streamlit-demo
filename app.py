@@ -19,7 +19,7 @@ st.warning("This is a warning.")
 st.error("An error occurred.")
 
 # Image display
-img = Image.open("cat.jpg")
+img = Image.open("dog.jpg")
 st.image(img, width=200)
 
 # Checkbox
