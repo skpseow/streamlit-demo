@@ -8,7 +8,10 @@ city_data = {
     "New York": {"lat": 40.7128, "lon": -74.0060},
     "London": {"lat": 51.5074, "lon": -0.1278},
     "Tokyo": {"lat": 35.6895, "lon": 139.6917},
-    "Sydney": {"lat": -33.8688, "lon": 151.2093}
+    "Sydney": {"lat": -33.8688, "lon": 151.2093},
+    "Singapore": {"lat": 1.3521, "lon": 103.8198},
+    "Bangkok": {"lat": 13.7563, "lon": 100.5018},
+    "Hanoi": {"lat": 21.0285, "lon": 105.8542}
 }
 
 # User selects a city from a dropdown
