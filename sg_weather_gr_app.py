@@ -1,12 +1,12 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import plotly.graph_objects as go
 
 st.title("🇸🇬 Singapore Weather Explorer")
 st.write("Choose how you want to view the week's forecast!")
 
 # Sub-goal 1: Capture the user's preferred view
-# The radio button returns the exact string the user selects
 view_choice = st.radio(
     "Select a view:", 
     ["Daily Details", "Temperature Trend Graph"]
@@ -36,28 +36,43 @@ if st.button("Fetch Weather"):
                         st.write(f"**Low:** {min_temps[i]} °C")
                         st.write(f"**Precipitation:** {precip[i]} mm")
                         
-            # Sub-goal 3b: Render the Graph View
+            # Sub-goal 3b: Render the Custom Graph View
             elif view_choice == "Temperature Trend Graph":
                 st.subheader("Temperature Trend")
                 
-                # Convert text dates to real dates for the X-axis
+                # Convert dates and format them strictly as "Month Day" (e.g., "Jul 06")
+                # This ensures the graph axis only shows the date, never the time.
                 proper_dates = []
                 for d in dates_text:
-                    real_date = datetime.strptime(d, "%Y-%m-%d").date()
-                    proper_dates.append(real_date)
+                    real_date = datetime.strptime(d, "%Y-%m-%d")
+                    clean_date_string = real_date.strftime("%b %d")
+                    proper_dates.append(clean_date_string)
                 
-                # Structure the dictionary and plot
-                chart_data = {
-                    "Date": proper_dates,
-                    "High (°C)": max_temps,
-                    "Low (°C)": min_temps
-                }
+                # Sub-goal 4: Build the custom Plotly chart
+                fig = go.Figure()
                 
-                st.line_chart(
-                    chart_data,
-                    x="Date",
-                    y=["High (°C)", "Low (°C)"]
-                )
+                # Add the High temperature line (Red with circle markers)
+                fig.add_trace(go.Scatter(
+                    x=proper_dates, 
+                    y=max_temps, 
+                    mode='lines+markers',
+                    name='High (°C)',
+                    line=dict(color='red'),
+                    marker=dict(symbol='circle', size=8)
+                ))
+                
+                # Add the Low temperature line (Dark red with circle markers)
+                fig.add_trace(go.Scatter(
+                    x=proper_dates, 
+                    y=min_temps, 
+                    mode='lines+markers',
+                    name='Low (°C)',
+                    line=dict(color='darkred'),
+                    marker=dict(symbol='circle', size=8)
+                ))
+                
+                # Render the chart in Streamlit
+                st.plotly_chart(fig)
                 
         else:
             st.error("Could not fetch the forecast.")
